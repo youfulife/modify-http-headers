@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>options</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/options.js"></script>
+</head>
+<body>
+<H1>HTTP 请求头部设置</H1>
+<br />
+
+<div class="container-narrow">
+<ul class="nav nav-tabs" role="tablist">
+    <li class="active"><a href="#user-agentTab" role="tab" data-toggle="tab">User-Agent</a></li>
+    <li><a href="#refererTab" role="tab" data-toggle="tab">Referer</a></li>
+    <li><a href="#x-forwarded-forTab" role="tab" data-toggle="tab">X-Forwarded-For</a></li>
+    <li><a href="#cookieTab" role="tab" data-toggle="tab">Cookie</a></li>
+    <li><a href="#settingTab" role="tab" data-toggle="tab">Setting</a></li>
+    <li><a href="#helpTab" role="tab" data-toggle="tab">Help</a></li>
+</ul>
+
+<div class="tab-content col-lg-8 col-lg-offset-2">
+    <div class="tab-pane active" id="user-agentTab">
+        <br/>
+        <br/>
+        <label for="user-agentValue"><b>User-Agent</b></label>
+        <br/>
+        <table class="table table-bordered table-hover" style="word-break:break-all">
+            <tr><td class="col-lg-11"><div class="form-control-static" contenteditable="true" id="user-agentValue"></div></td>
+                <td><button type="button" class="btn" id="clearUser-AgentValue">清空</button></td></tr>
+        </table>
+        <br/>
+        <div class="btn-group col-lg-offset-5">
+            <button type="button" class="btn btn-lg btn-default" id="saveUser-AgentValuePersistence">保存修改</button>
+        </div>
+    </div>
+
+    <div class="tab-pane" id="refererTab">
+        <br/>
+        <br/>
+        <label for="refererValue"><b>Referer</b></label>
+        <br/>
+        <table class="table table-bordered table-hover" style="word-break:break-all">
+            <tr><td class="col-lg-11"><div class="form-control-static" contenteditable="true" id="refererValue"></div></td>
+                <td><button type="button" class="btn" id="clearRefererValue">清空</button></td></tr>
+        </table>
+        <br/>
+        <div class="btn-group col-lg-offset-5">
+            <button type="button" class="btn btn-lg btn-default" id="saveRefererValuePersistence">保存修改</button>
+        </div>
+    </div>
+
+    <div class="tab-pane" id="x-forwarded-forTab">
+        <br/>
+        <br/>
+        <label for="x-forwarded-forValue"><b>X-Forwarded-For</b></label>
+        <br/>
+        <table class="table table-bordered table-hover" style="word-break:break-all">
+            <tr><td class="col-lg-11"><div class="form-control-static" contenteditable="true" id="x-forwarded-forValue"></div></td>
+                <td><button type="button" class="btn" id="clearX-Forwarded-ForValue">清空</button></td></tr>
+        </table>
+        <br/>
+        <div class="btn-group col-lg-offset-5">
+            <button type="button" class="btn btn-lg btn-default" id="saveX-Forwarded-ForValuePersistence">保存修改</button>
+        </div>
+        <!--
+        <div class="checkbox">
+               <label><input id="randomX-Forwarded-For" type="checkbox" disabled='true'>随机生成IP</label>
+        </div>
+        -->
+    </div>
+
+    <div class="tab-pane" id="cookieTab">
+        <br/>
+        <br/>
+        <label for="cookieValue"><b>Cookie</b></label>
+        <br/>
+        <table class="table table-bordered table-hover" style="word-break:break-all">
+            <tr><td class="col-lg-11"><div class="form-control-static" contenteditable="true" id="cookieValue"></div></td>
+                <td><button type="button" class="btn" id="clearCookieValue">清空</button></td></tr>
+        </table>
+        <br/>
+        <div class="btn-group col-lg-offset-5">
+            <button type="button" class="btn btn-lg btn-default" id="saveCookieValuePersistence">保存修改</button>
+        </div>
+    </div>
+
+    <div class="tab-pane" id="settingTab">
+        <br/>
+        <br/>
+        <table class="table table-bordered" style="word-break:break-all">
+            <tr>
+                <td width="33%" id="headersCheckBox">
+                    <h4>Headers</h4>
+                    <div class="checkbox">
+                        <label><input id="displayUserAgent" type="checkbox" checked name="User-Agent">User-Agent</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input id="displayReferer" type="checkbox" checked name="Referer">Referer</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input id="displayXff" type="checkbox" checked name="X-Forwarded-For">X-Forwarded-For</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input id="displayCookie" type="checkbox" checked name="Cookie">Cookie</label>
+                    </div>
+                    <hr/>
+                    <div>
+                    <button type="button" class="btn btn-lg" style="width: 100%" id="addCustomHeader">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        添加自定义头部
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                    </div>
+                </td>
+                <td>
+                    <h4 align="center">受影响的Host</h4>
+                    <div id="urlFilterEternal">
+                        <div class="col-lg-12">
+                            <div contenteditable="true" id="workHostFilter" class="form-control-static" style="border: 1px solid gray">www.xxx.com;localhost</div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="btn-group col-lg-offset-9">
+            <button type="button" class="btn btn-lg" id="resetDefault">全部重置为默认</button>
+        </div>
+    </div>
+
+    <div class="tab-pane" id="helpTab">
+        <br />
+        <br />
+        <H1>球球: <a href="#">1324496077</a></H1>
+        <H1>博客: <a href="http://www.hiyoufu.com" target="_blank">www.hiyoufu.com</a></H1>
+        <H1>邮箱: <a href="#">youfu.ok@163.com</a></H1>
+        <hr/>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="addCustomHeaderModal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body">
+                <br />
+                <div class="input-group">
+                    <span class="input-group-addon">Name </span>
+
+                    <input type="text" class="form-control" id="customHeaderName">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Value </span>
+                    <input type="text" class="form-control col-lg-11" id="customHeaderValue">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="saveCustomHeader" class="btn btn-default">Save</button>
+                <button type="button" id="cancelCustomHeader" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
