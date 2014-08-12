@@ -6,46 +6,36 @@ $(document).ready(function(){
     var headerInfo = JSON.parse(localStorage['salmonMHH']);
     var info='';
     info += '<table class="table table-bordered table-striped table-hover" style="word-break:break-all">';
-    console.log(headerInfo);
     for(var i=0; i < headerInfo.length; i++) {
         if(headerInfo[i].display) {
+            var checkboxId = 'custom'+ headerInfo[i].name;
             info += '<tr><td>'+ headerInfo[i].name +'</td><td>';
             if (headerInfo[i].notChanged) {
-                info += '<input type="checkbox">';
+                info += '<input id="'+checkboxId+'" type="checkbox" name="'+ headerInfo[i].name +'">';
             } else {
-                info += '<input type="checkbox" checked>';
+                info += '<input id="'+checkboxId+'" type="checkbox" checked name="'+ headerInfo[i].name +'">';
             }
             info += ' custom</td></tr>';
-            info += '<tr><td colspan="2"><div contenteditable="true" class="form-control-static" id="' + headerInfo[i].name + '" value="' + headerInfo[i].value + '">';
+            info += '<tr><td colspan="2"><div contenteditable="true" class="form-control-static" id="' + headerInfo[i].name + '"></div>';
             info += '</td></tr>';
         }
     }
     info += '</table>';
     $('#div1').html(info);
 
-    $('#browserDefault').change(function(){
-        if($(event.target).prop('checked')) {
-            for (var i = 0; i < headerInfo.length; i++) {
-                headerInfo[i].notChanged = true;
-            }
-            $('button.btn-default').attr('disabled', 'true');
-            $('input.headerValue').attr('disabled', 'true');
-        } else {
-            $('button.btn-default').removeAttr('disabled');
-            $('input.headerValue').removeAttr('disabled');
-        }
-    });
-
-    $('.selected').on('click', function(){
-        var targetName = $(event.target).parent().parent().parent().find('button')[0].innerHTML;
-        for(var i=0; i < headerInfo.length; i++){
-            if(headerInfo[i].name == targetName){
-                headerInfo[i].notChanged = !headerInfo[i].notChanged;
+    $('input[type=checkbox]').on('change', function(){
+        var name = $(this).attr('name');
+        var custom = $(this).prop('checked');
+        for(var i=0; i < headerInfo.length; i++) {
+            if(headerInfo[i].name == name) {
+                if(custom == true && headerInfo[i].value != undefined && headerInfo[i].value != '') {
+                    $(this).parent().parent().next().html(headerInfo[i].value);
+                } else {
+                    $(this).parent().parent().next().html('Browser Default');
+                }
+                headerInfo[i].notChanged = !custom;
             }
         }
-        var tempText = $(event.target).parent().parent().parent().find('button')[1].innerText;
-        $(event.target).parent().parent().parent().find('button')[1].innerHTML = $(event.target).html()+'<span class="caret"></span>';
-        $(event.target).html(tempText);
+        localStorage.salmonMHH = JSON.stringify(headerInfo);
     });
-
 });
