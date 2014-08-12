@@ -50,6 +50,9 @@ function randomIP()
      return Math.floor(Math.random()*225)+'.'+Math.floor(Math.random()*255)+'.'+Math.floor(Math.random()*255)+'.'+Math.floor(Math.random()*255);
 }
 
+
+
+/*
 function focusOrCreateTab(url) {
     chrome.windows.getAll({
         "populate": true
@@ -82,3 +85,5 @@ chrome.browserAction.onClicked.addListener(function() {
     var manager_url = chrome.extension.getURL("modify-http-headers.html");
     focusOrCreateTab(manager_url);
 });
+
+*/

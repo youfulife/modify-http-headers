@@ -24,7 +24,8 @@
 
     "browser_action": {
         "default_icon": "salmon-icon.png",
-        "default_title": "Modify-http-headers"
+        "default_title": "Modify-http-headers",
+        "default_popup": "modify-http-headers.html"
     },
 
     "background": {

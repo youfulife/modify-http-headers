@@ -2,12 +2,11 @@
  * Created by youfu on 7/29/2014.
  */
 
-
-
 $(document).ready(function(){
     var headerInfo = JSON.parse(localStorage['salmonMHH']);
     var info='';
     info += '<table class="table table-bordered table-condensed table-hover">';
+    console.log(headerInfo);
     for(var i=0; i < headerInfo.length; i++) {
         if(headerInfo[i].display) {
             info += '<tr><div class="input-group"><div class="input-group-btn">';
@@ -63,7 +62,7 @@ $(document).ready(function(){
         var targetName = $(event.target).parent().parent().parent().find('button')[0].innerHTML;
         for(var i=0; i < headerInfo.length; i++){
             if(headerInfo[i].name == targetName){
-                headerInfo.splice(i, 1);
+                headerInfo[i].display = false;
             }
         }
         $(event.target).parent().parent().parent().parent().empty();

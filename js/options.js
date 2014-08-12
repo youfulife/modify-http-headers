@@ -25,6 +25,7 @@ $(document).ready(function(){
                 addCustomHeaderTabPane(name);
             }
         }
+
     }
 
 
@@ -57,7 +58,7 @@ $(document).ready(function(){
 
     $('#workHostFilter').on('input', function(){
         localStorage['includeUrlText'] = this.innerHTML.toString().replace(/(^\s*)|(\s*$)/g, '');
-        console.log(localStorage['includeUrlText']);
+        //console.log(localStorage['includeUrlText']);
     })
 
     $('#resetDefault').on('click', function(){
@@ -83,7 +84,6 @@ function headerNameRepeat(name)
 {
     for(var i=0; i < headersInfo.length; i++) {
         if(headersInfo[i].name == name) {
-            console.log("repeat header name");
             return true;
         }
     }
