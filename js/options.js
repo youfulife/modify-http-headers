@@ -25,9 +25,9 @@ $(document).ready(function(){
             initHeaderTabValue(name, value);
             initHeaderTabEvents(name);
         }
+        initCheckBoxProp();
 
     }
-
 
     $('#addCustomHeader').on('click', function(){
         $('#addCustomHeaderModal').modal("show");
@@ -39,6 +39,7 @@ $(document).ready(function(){
             addCustomHeaderCheckBox(tempHeader.name);
             addCustomHeaderNavTab(tempHeader.name);
             addCustomHeaderTabPane(tempHeader.name);
+            initHeaderTabEvents(tempHeader.name);
         }
         $('#addCustomHeaderModal').modal("hide");
     });
@@ -69,6 +70,12 @@ $(document).ready(function(){
 
 });
 
+function initCheckBoxProp() {
+    for(var i=0; i < headersInfo.length; i++) {
+        var checkBoxId = 'display' + headersInfo[i].name;
+        $('#'+checkBoxId).prop('checked', headersInfo[i].display);
+    }
+}
 
 function headerIndex(name)
 {
@@ -80,7 +87,6 @@ function headerIndex(name)
     return -1;
 }
 
-
 function headerNameRepeat(name)
 {
     for(var i=0; i < headersInfo.length; i++) {
@@ -91,7 +97,6 @@ function headerNameRepeat(name)
     return false;
 }
 
-
 function addCustomHeaderCheckBox(name)
 {
     var checkBoxId = 'display' + name;
@@ -100,7 +105,6 @@ function addCustomHeaderCheckBox(name)
     html += '<label><input id="'+checkBoxId+'" type="checkbox" checked name="'+name+'">' + name + '</label>';
     html += '</div>';
     $("div.checkbox:last").append(html);
-    $('#'+checkBoxId).prop('checked', headersInfo[headerIndex(name)].display);
     $('#'+checkBoxId).on('change', function(){
         var name = $(this).prop('name');
         var display = $(this).prop('checked');
@@ -110,7 +114,6 @@ function addCustomHeaderCheckBox(name)
     });
 }
 
-
 function addCustomHeaderNavTab(name)
 {
     var tabPaneHref = '#' + name.toLowerCase() + 'Tab';
@@ -119,7 +122,6 @@ function addCustomHeaderNavTab(name)
     html += '<a href="'+tabPaneHref+'" role="tab" data-toggle="tab">' + name + '</a></li>';
     $('ul li:eq(-2)').before(html);
 }
-
 
 function addCustomHeaderTabPane(name)
 {
@@ -138,7 +140,6 @@ function addCustomHeaderTabPane(name)
     html += '</div></div>';
     $('div.tab-pane:eq(-2)').before(html);
 }
-
 
 function initDefaultHeaders()
 {
@@ -170,7 +171,6 @@ function initHeaderTabEvents(name)
     var delBtnId = '#' + 'del' + name.toString();
 
     $(inputDivId).on("input", function (event) {
-        console.log(name);
         var header = {};
         header.name = name;
         header.value = event.target.innerHTML;
@@ -191,6 +191,7 @@ function initHeaderTabEvents(name)
             }
         }
         localStorage.salmonMHH = JSON.stringify(headersInfo);
+        window.location.reload();
     });
 
     $(clearBtnId).on('click', function(){
