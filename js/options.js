@@ -8,25 +8,29 @@ tempHeader.display = true;
 tempHeader.name = '';
 tempHeader.value = '';
 
+var defaultHeaders = ['User-Agent', 'Referer', 'X-Forwarded-For', 'Cookie'];
+
 $(document).ready(function(){
     var mhh = localStorage['salmonMHH'];
     if(mhh == undefined) {
+        for(var i=0; i<defaultHeaders.length; i++) {
+            addCustomHeaderCheckBox(defaultHeaders[i]);
+            addCustomHeaderNavTab(defaultHeaders[i]);
+            addCustomHeaderTabPane(defaultHeaders[i]);
+        }
         initDefaultHeaders();
     } else {
         headersInfo = JSON.parse(mhh);
         for (var i = 0; i < headersInfo.length; i++) {
             var name = headersInfo[i].name;
             var value = headersInfo[i].value;
-            if(i > 3) {
                 addCustomHeaderCheckBox(name);
                 addCustomHeaderNavTab(name);
                 addCustomHeaderTabPane(name);
-            }
             initHeaderTabValue(name, value);
             initHeaderTabEvents(name);
         }
         initCheckBoxProp();
-
     }
 
     $('#addCustomHeader').on('click', function(){
@@ -39,6 +43,7 @@ $(document).ready(function(){
             addCustomHeaderCheckBox(tempHeader.name);
             addCustomHeaderNavTab(tempHeader.name);
             addCustomHeaderTabPane(tempHeader.name);
+            initHeaderTabValue(tempHeader.name, tempHeader.value);
             initHeaderTabEvents(tempHeader.name);
         }
         $('#addCustomHeaderModal').modal("hide");
@@ -66,6 +71,7 @@ $(document).ready(function(){
         headersInfo = [];
         localStorage.removeItem('salmonMHH');
         localStorage.removeItem('includeUrlText');
+        window.location.reload();
     });
 
 });
@@ -104,7 +110,7 @@ function addCustomHeaderCheckBox(name)
     html += '<div class="checkbox">';
     html += '<label><input id="'+checkBoxId+'" type="checkbox" checked name="'+name+'">' + name + '</label>';
     html += '</div>';
-    $("div.checkbox:last").append(html);
+    $('#headersCheckBox').append(html);
     $('#'+checkBoxId).on('change', function(){
         var name = $(this).prop('name');
         var display = $(this).prop('checked');
