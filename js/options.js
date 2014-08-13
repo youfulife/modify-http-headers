@@ -17,13 +17,13 @@ $(document).ready(function(){
         for (var i = 0; i < headersInfo.length; i++) {
             var name = headersInfo[i].name;
             var value = headersInfo[i].value;
-            initHeaderTabValue(name, value);
-            initHeaderTabEvents(name);
             if(i > 3) {
                 addCustomHeaderCheckBox(name);
                 addCustomHeaderNavTab(name);
                 addCustomHeaderTabPane(name);
             }
+            initHeaderTabValue(name, value);
+            initHeaderTabEvents(name);
         }
 
     }
@@ -126,7 +126,7 @@ function addCustomHeaderTabPane(name)
     var tabPaneId = name.toLowerCase() + 'Tab';
     var inputValueId = name.toLowerCase() + 'Value';
     var clearBtnId = 'clear' + name + 'Value';
-    var saveBtnId = 'save' + name + 'ValuePersistence';
+    var delBtnId = 'del' + name;
     var html = '';
     html += '<div class="tab-pane" id="'+tabPaneId+'"><br/><br/>';
     html += '<label for="'+inputValueId+'"><b>' + name + '</b></label><br/>';
@@ -134,7 +134,7 @@ function addCustomHeaderTabPane(name)
     html += '<tr><td class="col-lg-11"><div class="form-control-static" contenteditable="true" id="'+inputValueId +'"></div></td>';
     html += '<td><button type="button" class="btn" id="'+clearBtnId+'">' + '清空' + '</button></td></tr>';
     html += '</table><br/><div class="btn-group col-lg-offset-5">';
-    html += '<button type="button" class="btn btn-lg btn-default" id="'+saveBtnId+'">' + '保存修改' + '</button>';
+    html += '<button type="button" class="btn btn-lg btn-default" id="'+delBtnId+'">' + '删除当前头部' + '</button>';
     html += '</div></div>';
     $('div.tab-pane:eq(-2)').before(html);
 }
@@ -166,10 +166,11 @@ function initHeaderTabValue(name, value)
 function initHeaderTabEvents(name)
 {
     var inputDivId = '#' + name.toString().toLowerCase() + 'Value';
-    var saveBtnId = '#' + 'save' + name.toString() + 'Value' + 'Persistence';
     var clearBtnId = '#' + 'clear' + name.toString() + 'Value';
-    $(inputDivId).on("input", function (event) {
+    var delBtnId = '#' + 'del' + name.toString();
 
+    $(inputDivId).on("input", function (event) {
+        console.log(name);
         var header = {};
         header.name = name;
         header.value = event.target.innerHTML;
@@ -177,21 +178,29 @@ function initHeaderTabEvents(name)
         header.display = true;
         for(var i=0; i < headersInfo.length; i++) {
             if(headersInfo[i].name == header.name) {
-                headersInfo.splice(i, 1);
+                headersInfo[i].value = event.target.innerHTML;
             }
         }
-        headersInfo.push(header);
-    });
-    $(saveBtnId).on('click', function() {
         localStorage.salmonMHH = JSON.stringify(headersInfo);
     });
-    $(clearBtnId).on('click', function(){
-        //console.log($('#refererValue').html());
+
+    $(delBtnId).on('click', function(){
         for(var i=0; i < headersInfo.length; i++) {
             if(headersInfo[i].name == name) {
                 headersInfo.splice(i, 1);
             }
         }
+        localStorage.salmonMHH = JSON.stringify(headersInfo);
+    });
+
+    $(clearBtnId).on('click', function(){
+        //console.log($('#refererValue').html());
+        for(var i=0; i < headersInfo.length; i++) {
+            if(headersInfo[i].name == name) {
+                headersInfo[i].value = '';
+            }
+        }
+        localStorage.salmonMHH = JSON.stringify(headersInfo);
         $(inputDivId).empty();
     });
 }
