@@ -3,7 +3,12 @@
  */
 
 $(document).ready(function(){
-    var headerInfo = JSON.parse(localStorage['salmonMHH']);
+    var mhh = localStorage['salmonMHH'];
+    if(mhh == undefined) {
+         window.open('options.html');
+         window.close();
+    }
+    var headerInfo = JSON.parse(mhh);
     var info='';
     info += '<table class="table table-bordered table-striped table-hover" style="word-break:break-all">';
     for(var i=0; i < headerInfo.length; i++) {
@@ -16,7 +21,20 @@ $(document).ready(function(){
                 info += '<input id="'+checkboxId+'" type="checkbox" checked name="'+ headerInfo[i].name +'">';
             }
             info += ' custom</td></tr>';
-            info += '<tr><td colspan="2"><div contenteditable="true" class="form-control-static" id="' + headerInfo[i].name + '"></div>';
+            info += '<tr><td colspan="2">';
+
+            if (headerInfo[i].notChanged) {
+                info += '<div contenteditable="false" class="form-control-static" id="' + headerInfo[i].name + '">';
+                info += 'Browser Default';
+            } else {
+                info += '<div contenteditable="true" class="form-control-static" id="' + headerInfo[i].name + '">';
+                if(headerInfo[i].value == undefined || headerInfo[i].value == '') {
+                    info += 'Null';
+                } else {
+                    info += headerInfo[i].value;
+                }
+            }
+            info += '</div>';
             info += '</td></tr>';
         }
     }
@@ -28,14 +46,44 @@ $(document).ready(function(){
         var custom = $(this).prop('checked');
         for(var i=0; i < headerInfo.length; i++) {
             if(headerInfo[i].name == name) {
-                if(custom == true && headerInfo[i].value != undefined && headerInfo[i].value != '') {
-                    $(this).parent().parent().next().html(headerInfo[i].value);
+                if(custom == true) {
+                    if(headerInfo[i].value == undefined || headerInfo[i].value == '') {
+                        $(this).parent().parent().next().find('div').html('Null');
+                    } else {
+                        $(this).parent().parent().next().find('div').html(headerInfo[i].value);
+                    }
+                    $(this).parent().parent().next().find('div').attr('contenteditable', true);
+
                 } else {
-                    $(this).parent().parent().next().html('Browser Default');
+                    $(this).parent().parent().next().find('div').html('Browser Default');
+                    $(this).parent().parent().next().find('div').attr('contenteditable', false);
                 }
                 headerInfo[i].notChanged = !custom;
             }
         }
         localStorage.salmonMHH = JSON.stringify(headerInfo);
     });
+
+    $('div[contenteditable=true]').on('input', function(){
+        var name = $(event.target).attr('id');
+
+        for(var i=0; i < headerInfo.length; i++) {
+            if(headerInfo[i].name == name) {
+                headerInfo[i].value = event.target.innerHTML;
+            }
+        }
+        localStorage.salmonMHH = JSON.stringify(headerInfo);
+    });
+
+    $('div[contenteditable=false]').on('input', function(){
+        var name = $(event.target).attr('id');
+
+        for(var i=0; i < headerInfo.length; i++) {
+            if(headerInfo[i].name == name) {
+                headerInfo[i].value = event.target.innerHTML;
+            }
+        }
+        localStorage.salmonMHH = JSON.stringify(headerInfo);
+    });
+
 });

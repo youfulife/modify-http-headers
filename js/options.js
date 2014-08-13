@@ -62,6 +62,7 @@ $(document).ready(function(){
     })
 
     $('#resetDefault').on('click', function(){
+        headersInfo = [];
         localStorage.removeItem('salmonMHH');
         localStorage.removeItem('includeUrlText');
     });
@@ -173,6 +174,7 @@ function initHeaderTabEvents(name)
         header.name = name;
         header.value = event.target.innerHTML;
         header.notChanged = false;
+        header.display = true;
         for(var i=0; i < headersInfo.length; i++) {
             if(headersInfo[i].name == header.name) {
                 headersInfo.splice(i, 1);
