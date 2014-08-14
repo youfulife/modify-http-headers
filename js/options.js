@@ -14,9 +14,9 @@ $(document).ready(function(){
     var mhh = localStorage['salmonMHH'];
     if(mhh == undefined) {
         for(var i=0; i<defaultHeaders.length; i++) {
-            addCustomHeaderCheckBox(defaultHeaders[i]);
-            addCustomHeaderNavTab(defaultHeaders[i]);
-            addCustomHeaderTabPane(defaultHeaders[i]);
+            addHeaderCheckBox(defaultHeaders[i]);
+            addHeaderNavTab(defaultHeaders[i]);
+            addHeaderTabPane(defaultHeaders[i]);
         }
         initDefaultHeaders();
     } else {
@@ -24,9 +24,9 @@ $(document).ready(function(){
         for (var i = 0; i < headersInfo.length; i++) {
             var name = headersInfo[i].name;
             var value = headersInfo[i].value;
-                addCustomHeaderCheckBox(name);
-                addCustomHeaderNavTab(name);
-                addCustomHeaderTabPane(name);
+            addHeaderCheckBox(name);
+            addHeaderNavTab(name);
+            addHeaderTabPane(name);
             initHeaderTabValue(name, value);
             initHeaderTabEvents(name);
         }
@@ -36,24 +36,28 @@ $(document).ready(function(){
     $('#addCustomHeader').on('click', function(){
         $('#addCustomHeaderModal').modal("show");
     });
+
     $('#saveCustomHeader').on('click', function(){
         if(tempHeader.name != '' && !headerNameRepeat(tempHeader.name)) {
             headersInfo.push(tempHeader);
             localStorage.salmonMHH = JSON.stringify(headersInfo);
-            addCustomHeaderCheckBox(tempHeader.name);
-            addCustomHeaderNavTab(tempHeader.name);
-            addCustomHeaderTabPane(tempHeader.name);
+            addHeaderCheckBox(tempHeader.name);
+            addHeaderNavTab(tempHeader.name);
+            addHeaderTabPane(tempHeader.name);
             initHeaderTabValue(tempHeader.name, tempHeader.value);
             initHeaderTabEvents(tempHeader.name);
         }
         $('#addCustomHeaderModal').modal("hide");
     });
+
     $('#customHeaderName').on('change', function(){
         tempHeader.name = $(this).val().toString().replace(/(^\s*)|(\s*$)/g, '');
     });
+
     $('#customHeaderValue').on('change', function(){
         tempHeader.value = $(this).val().toString().replace(/(^\s*)|(\s*$)/g, '');
     });
+
     $('input[type=checkbox]').on('change', function(){
         var name = $(this).prop('name');
         var display = $(this).prop('checked');
@@ -65,7 +69,7 @@ $(document).ready(function(){
     $('#workHostFilter').on('input', function(){
         localStorage['includeUrlText'] = this.innerHTML.toString().replace(/(^\s*)|(\s*$)/g, '');
         //console.log(localStorage['includeUrlText']);
-    })
+    });
 
     $('#resetDefault').on('click', function(){
         headersInfo = [];
@@ -103,7 +107,7 @@ function headerNameRepeat(name)
     return false;
 }
 
-function addCustomHeaderCheckBox(name)
+function addHeaderCheckBox(name)
 {
     var checkBoxId = 'display' + name;
     var html = '';
@@ -120,7 +124,7 @@ function addCustomHeaderCheckBox(name)
     });
 }
 
-function addCustomHeaderNavTab(name)
+function addHeaderNavTab(name)
 {
     var tabPaneHref = '#' + name.toLowerCase() + 'Tab';
     var html = '';
@@ -129,7 +133,7 @@ function addCustomHeaderNavTab(name)
     $('ul li:eq(-2)').before(html);
 }
 
-function addCustomHeaderTabPane(name)
+function addHeaderTabPane(name)
 {
     var tabPaneId = name.toLowerCase() + 'Tab';
     var inputValueId = name.toLowerCase() + 'Value';
