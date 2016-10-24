@@ -9,7 +9,7 @@ You can add custom headers.
 
 使用方法：
 
-http://youfu.xyz/2015/01/05/chrome-mhh/
+http://dig404.com/2015/01/05/chrome-mhh/
 
 
-blog: youfu.xyz
+blog: dig404.com
